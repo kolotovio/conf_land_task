@@ -1,0 +1,14 @@
+version: '3.9'
+
+networks: 
+    laravel:
+
+services: 
+    php:
+        container_name: ${COMPOSE_PROJECT_NAME}_php
+        build: 
+            context: ./docker/php
+        volumes: 
+            - ./src:/var/www/src
+        networks: 
+            - laravel
