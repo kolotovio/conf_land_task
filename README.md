@@ -33,7 +33,7 @@ docker-compose build && docker-compose up -d
 2. For install Laravel packages by Composer, you need to enter to container with PHP. Type in console `docker exec -it conflandtask_php bash` and after that type `composer install`
 3. Install npm packages for frontend and compile js and css production files:
 ```bash
-docker-compose run --rm node ci # install base on lock-file
+docker-compose run --rm node ci # install npm packages based on lock-file
 docker-compose run --rm node run prod # compile CSS an JS by Laravel-Mix
 ```
 
