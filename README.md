@@ -24,16 +24,25 @@ The App can send email for users, but for testing, it's using a email intercepto
 
 ---
 ### All ok, ready to start
-For starting app follow these steps:
+For starting app make sure you're in project folder and follow these steps:
 
 1. For build a containers and start them in "silent" mode type in console following commands:
 ```bash
 docker-compose build && docker-compose up -d
 ```
-2. For install Laravel packages by Composer, you need to enter to container with PHP. Type in console `docker exec -it conflandtask_php bash` and after that type `composer install`
+2. For install Laravel packages by Composer, you need to enter to container with PHP and from there execute install command:
+```bash
+# login into container with PHP,
+# with user as 'www-data'
+# and project source folder as base path
+docker exec -it conflandtask_php bash
+
+# start install packages
+composer install
+```
 3. Install npm packages for frontend and compile js and css production files:
 ```bash
-docker-compose run --rm node ci # install npm packages based on lock-file
+docker-compose run --rm node ci # install npm packages based on package-lock.json file
 docker-compose run --rm node run prod # compile CSS an JS by Laravel-Mix
 ```
 
