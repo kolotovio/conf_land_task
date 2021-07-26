@@ -13,6 +13,9 @@ RUN wget https://getcomposer.org/installer \
 
 RUN mkdir /var/www/.composer && chmod -R 755 /var/www/.composer && chown -R www-data:www-data /var/www/.composer
 
+# Test run of Composer
+RUN composer --version
+
 # Turn on extensions
 RUN docker-php-ext-install opcache bcmath zip
 
