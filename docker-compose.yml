@@ -8,7 +8,31 @@ services:
         container_name: ${COMPOSE_PROJECT_NAME}_php
         build: 
             context: ./docker/php
+            # dockerfile: ./docker/php/Dockerfile
         volumes: 
             - ./src:/var/www/src
+        networks: 
+            - laravel
+    nginx:
+        container_name: ${COMPOSE_PROJECT_NAME}_nginx
+        image: nginx:stable-alpine
+        volumes: 
+            - ./src:/var/www/src
+            - ./docker/nginx/default.conf:/etc/nginx/conf.d/default.conf
+            - ./docker/nginx/nginxconfig.io:/etc/nginx/nginxconfig.io
+        ports: 
+            - 80:80
+        command: ['nginx', '-g', 'daemon off;']
+        networks: 
+            - laravel
+        depends_on: 
+            - php
+    node:
+        container_name: ${COMPOSE_PROJECT_NAME}_node
+        image: node:14-alpine
+        volumes: 
+            - ./src:/var/www/src
+        working_dir: /var/www/src
+        entrypoint: ['npm']
         networks: 
             - laravel
