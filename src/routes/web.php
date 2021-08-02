@@ -14,3 +14,5 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::get('/', fn () => view('home'));
+Route::get('/users', fn () => view('userstable')); //'App\Http\Controllers\UserController@index'
+Route::get('/{uuid?}', 'App\Http\Controllers\UserController@show');
