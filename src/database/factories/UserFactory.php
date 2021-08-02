@@ -5,6 +5,8 @@ namespace Database\Factories;
 use App\Models\User;
 use Illuminate\Database\Eloquent\Factories\Factory;
 use Illuminate\Support\Str;
+use SimpleSoftwareIO\QrCode\Facades\QrCode;
+use Illuminate\Support\Facades\Storage;
 
 class UserFactory extends Factory
 {
@@ -22,13 +24,29 @@ class UserFactory extends Factory
      */
     public function definition()
     {
-        return [
-            'name' => $this->faker->name(),
+        $gender = $this->faker->randomElement(['male', 'female']);
+
+        $user = [
+            'uuid' => $this->faker->uuid(),
+            'first_name' => $this->faker->firstName($gender),
+            'middle_name' => $this->faker->middleName($gender),
+            'last_name' => $this->faker->lastName($gender),
             'email' => $this->faker->unique()->safeEmail(),
-            'email_verified_at' => now(),
-            'password' => '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi', // password
-            'remember_token' => Str::random(10),
+            'phone' => $this->faker->PhoneNumber(),
+            'company' => $this->faker->company(),
+            'job_title' => $this->faker->jobTitle(),
         ];
+
+        // Make a Secret Link
+        $secretLink = config('app.url') . '/' . $user['uuid'];
+
+        // Make SVG image with QRcoded Secret Link
+        $qr = QrCode::size(200)->generate($secretLink);
+
+        // Store SVG Image to local filesystem
+        Storage::disk('public')->put('qrcodes/' . $user['uuid'] . '.svg', $qr);
+
+        return $user;
     }
 
     /**
@@ -36,12 +54,12 @@ class UserFactory extends Factory
      *
      * @return \Illuminate\Database\Eloquent\Factories\Factory
      */
-    public function unverified()
-    {
-        return $this->state(function (array $attributes) {
-            return [
-                'email_verified_at' => null,
-            ];
-        });
-    }
+    // public function unverified()
+    // {
+    //     return $this->state(function (array $attributes) {
+    //         return [
+    //             'email_verified_at' => null,
+    //         ];
+    //     });
+    // }
 }
