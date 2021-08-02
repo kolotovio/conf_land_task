@@ -1,0 +1,14 @@
+version: '3.9'
+
+services: 
+    adminer:
+        container_name: ${COMPOSE_PROJECT_NAME}_adminer
+        image: adminer:4
+        ports: 
+            - 8080:8080
+        environment: 
+            ADMINER_DEFAULT_SERVER: db
+        networks: 
+            - laravel
+        depends_on: 
+            - db

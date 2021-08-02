@@ -6,6 +6,7 @@ RUN apt-get update && apt-get install -y \
     libpq-dev \
     lsb-release \
     gnupg \
+    libpng-dev \
     wget --no-install-recommends
 
 # Install postgres client, just-in-case
@@ -23,7 +24,7 @@ RUN wget https://getcomposer.org/installer \
 RUN mkdir /var/www/.composer && chmod -R 755 /var/www/.composer && chown -R www-data:www-data /var/www/.composer
 
 # Turn on extensions
-RUN docker-php-ext-install opcache bcmath zip pdo pdo_pgsql pgsql
+RUN docker-php-ext-install opcache bcmath zip pdo pdo_pgsql pgsql gd
 
 # Cleaning up
 RUN apt-get clean && rm -rf /var/lib/apt/lists/* /tmp/* var/tmp/*
