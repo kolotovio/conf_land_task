@@ -6,7 +6,7 @@ use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
-use Webpatser\Uuid\Uuid;
+// use Webpatser\Uuid\Uuid;
 
 class User extends Authenticatable
 {
@@ -18,9 +18,14 @@ class User extends Authenticatable
      * @var array
      */
     protected $fillable = [
-        'name',
+        'uuid',
+        'first_name',
+        'middle_name',
+        'last_name',
         'email',
-        'password',
+        'phone',
+        'company',
+        'job_title',
     ];
 
     /**
@@ -28,25 +33,20 @@ class User extends Authenticatable
      *
      * @var array
      */
-    protected $hidden = [
-        'password',
-        'remember_token',
-    ];
+    protected $hidden = [];
 
     /**
      * The attributes that should be cast to native types.
      *
      * @var array
      */
-    protected $casts = [
-        'email_verified_at' => 'datetime',
-    ];
+    protected $casts = [];
 
-    public static function boot()
-    {
-        parent::boot();
-        self::creating(function ($model) {
-            $model->uuid = Uuid::generate(4);
-        });
-    }
+    // public static function boot()
+    // {
+    //     parent::boot();
+    //     self::creating(function ($model) {
+    //         $model->uuid = Uuid::generate(4);
+    //     });
+    // }
 }
